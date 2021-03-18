@@ -2,7 +2,7 @@
 	"name": "profitable-flashloans",
 	"version": "1.0.0",
 	"description": "",
-	"main": "build/run-arbitrage.js",
+	"main": "build/test-xDAI.js",
 	"scripts": {
 		"start": "node build/test-xDAI.js",
 		"build-copy-push": "tsc && npm run remove-old && npm run copy && npm run push",
