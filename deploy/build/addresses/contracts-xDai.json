@@ -1,0 +1,10 @@
+{
+    "BaoSwap": {
+        "Proxy": "0x45DE240fbE2077dd3e711299538A09854FAE9c9b",
+        "Type": "uniswap"
+    },
+    "HoneySwap": {
+        "Proxy": "0xA818b4F111Ccac7AA31D0BCc0806d64F2E0737D7",
+        "Type": "uniswap"
+    }
+}

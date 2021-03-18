@@ -1,0 +1,10 @@
+{
+    "Uniswap": {
+        "Proxy": "0x5C69bEe701ef814a2B6a3EDD4B1652CB9cc5aA6f",
+        "Type": "uniswap"
+    },
+    "Balancer": {
+        "Proxy": "0xC5570FC7C828A8400605e9843106aBD675006093",
+        "Type": "balancer"
+    }
+}
