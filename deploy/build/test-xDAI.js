@@ -7,7 +7,7 @@ const mempoolManager_1 = __importDefault(require("./helpers/mempoolManager"));
 const opportunityManager_1 = __importDefault(require("./helpers/opportunityManager"));
 const xDaiConfig_1 = require("./xDaiConfig");
 const path = require('path');
-require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
+require('dotenv').config({ path: process.env.ENVPATH ? process.env.ENVPATH : path.resolve(__dirname, '../.env') });
 console.log('starting');
 const init = async () => {
     let blockNumber = 0;
