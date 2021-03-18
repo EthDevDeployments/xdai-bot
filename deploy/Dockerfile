@@ -3,5 +3,5 @@ WORKDIR /usr/src/app
 COPY package*.json ./
 RUN npm i
 COPY . .
-ENV ENVPATH=/envpath
+ENV ENVPATH=/envpath/.env
 CMD npm run start
