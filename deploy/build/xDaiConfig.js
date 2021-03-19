@@ -44,7 +44,7 @@ const portion = 1111111111;
 const ignoreAddresses = ['0x4958D7a5309740926C868d7EcA0d9DCCAC0BcB4A', '0x71199172Af06b51c7594Afb0ea9C2D2D3ef13eb8', '0xb1B4Bb486937b102E46777bD4ac1bc7B29019873', '0x5d9593586b4B5edBd23E7Eba8d88FD8F09D83EBd', '0x75Df5AF045d91108662D8080fD1FEFAd6aA0bb59', '0xFcEdfc956350E5585Cd58EfbCD7241E704AA5F1a', '0xA51156F3F1e39d1036Ca4ba4974107A1C1815d1e'].map((address) => address.toLowerCase());
 // Additional helpers
 function profitable(opportunity, gasPrice) {
-    const totalGasCostWei = estimate(opportunity.awayExchange, opportunity.returnExchange).multipliedBy(gasPrice);
+    const totalGasCostWei = new bignumber_1.BigNumber(200000).multipliedBy(gasPrice);
     const revenueInWei = new bignumber_1.BigNumber(opportunity.stdDiff);
     if (revenueInWei.isGreaterThan(totalGasCostWei)) {
         return true;
