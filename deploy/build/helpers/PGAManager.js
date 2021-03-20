@@ -6,6 +6,7 @@ const bignumber_1 = require("@balancer-labs/sor/dist/utils/bignumber");
 function createPGAManager(updateThresholdOnBid, getFirstBidAmount, chain, walletKey, walletAddress, walletIndex) {
     const cancellationMarkup = 1.2;
     const rebidMarkup = 1.15;
+    const rebidIncrement = 100000;
     const baseBidAmount = 1000000000;
     let blockNumber = 0;
     let blocksSeenWhileStuck = 0;
@@ -47,7 +48,9 @@ function createPGAManager(updateThresholdOnBid, getFirstBidAmount, chain, wallet
                 if ((currentOpportunity.awayPool.toLowerCase() === key && gas >= lastGasBid) || (currentOpportunity.returnPool.toLowerCase() === key && gas >= lastGasBid)) {
                     // Rebid if still profitable. Cancel the tx if not
                     logEvent(`We found a competitive bid competition on transaction: ${transaction} With gas price: ${gas}`);
-                    const newGasBid = Number(new bignumber_1.BigNumber(gas).multipliedBy(rebidMarkup).toFixed(0));
+                    const gasPriceA = Number(new bignumber_1.BigNumber(lastGasBid).multipliedBy(rebidMarkup).toFixed(0));
+                    const gasPriceB = gas + rebidIncrement;
+                    const newGasBid = gasPriceA > gasPriceB ? gasPriceA : gasPriceB;
                     if (chain.profitable(currentOpportunity, newGasBid)) {
                         console.time(`${loggingString} RE-BID with revenue of: $${new bignumber_1.BigNumber(currentOpportunity.stdDiff).toNumber() / Math.pow(10, 18)} and gas Price of: ${newGasBid}`);
                         bidOnOpportunity(currentOpportunity, newGasBid, false);
