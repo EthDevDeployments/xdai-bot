@@ -38,6 +38,8 @@ const outerCoins = ['wxdai', 'hny', 'weth'];
 const exchanges = ['BaoSwap', 'HoneySwap'];
 // Initiialize coin address reference
 const coinLookup = addresses.tokensxDai;
+// Initiialize reverse coin address reference
+const revCoinLookup = addresses.tokensReversexDai;
 // Initiailize portion
 const portion = 1111111111;
 // Address ignore list
@@ -125,6 +127,7 @@ exports.chain = {
     outerCoins: outerCoins,
     exchanges: exchanges,
     coinLookup: coinLookup,
+    revCoinLookup: revCoinLookup,
     portion: portion,
     ignoreAddresses: ignoreAddresses,
     profitable: profitable,
