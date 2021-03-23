@@ -5,7 +5,7 @@
 	"main": "build/test-xDAI.js",
 	"scripts": {
 		"start": "node build/test-xDAI.js",
-		"build-copy-push": "tsc && npm run remove-old && npm run copy && npm run push",
+		"build-copy-push": "tsc && npm run pre-remove-old && npm run remove-old && npm run copy && npm run push",
 		"run-test-xDAI": "tsc && node build/test-xDAI",
 		"run-test-kovan": "tsc && node build/test-kovan",
 		"run-test-mainnet": "tsc && node build/test-mainnet",
@@ -16,6 +16,7 @@
 		"docker-xdai-LOG": "docker logs xdai-pga --tail 8000",
 		"docker-xdai-STOP": "docker stop xdai-pga && docker container rm xdai-pga",
 		"docker-RUNNING": "docker ps",
+		"pre-remove-old": "cd ../../xdai-bot && git pull",
 		"remove-old": "rm -r ../../xdai-bot/deploy && mkdir ../../xdai-bot/deploy && mkdir ../../xdai-bot/deploy/build",
 		"copy": "cp -a build/. ../../xdai-bot/deploy/build && cp Dockerfile ../../xdai-bot/deploy && cp package.json ../../xdai-bot/deploy",
 		"push": "cd ../../xdai-bot && git add . && git commit -m \"update\" && git push origin"
