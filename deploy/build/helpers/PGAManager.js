@@ -188,7 +188,7 @@ function createPGAManager(updateThresholdOnBid, getFirstBidAmount, chain, wallet
         const seconds = date.getSeconds().toString();
         const ms = date.getMilliseconds().toString();
         const _hour = date.getHours();
-        const hour = _hour > 5 ? _hour - 5 : 19 + _hour;
+        const hour = _hour >= 5 ? _hour - 5 : 19 + _hour;
         return `${hour}:${minutes.length > 1 ? minutes : '0' + minutes}:${seconds.length > 1 ? seconds : '0' + seconds}:${ms.length > 1 ? ms : '0' + ms}`;
     }
     return {
