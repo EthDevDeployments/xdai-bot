@@ -31,7 +31,9 @@ function createPGAManager(updateThresholdOnBid, getFirstBidAmount, chain, wallet
                 }
                 else {
                     blocksSeenWhileStuck++;
-                    blocksSeenWhileStuck > 0 ? logEvent(`Stuck for ${blocksSeenWhileStuck} blocks`) : null;
+                    blocksSeenWhileStuck > 0
+                        ? logEvent(`Stuck for ${blocksSeenWhileStuck} blocks`)
+                        : null;
                     if (blocksSeenWhileStuck > 2) {
                         logEvent('CANCELLING Manager Stuck');
                         cancelTx();
@@ -45,7 +47,10 @@ function createPGAManager(updateThresholdOnBid, getFirstBidAmount, chain, wallet
         // See if the insertion requires a rebid
         await mutex.runExclusive(async () => {
             if (currentOpportunity != null) {
-                if ((currentOpportunity.awayPool.toLowerCase() === key && gas >= lastGasBid) || (currentOpportunity.returnPool.toLowerCase() === key && gas >= lastGasBid)) {
+                if ((currentOpportunity.awayPool.toLowerCase() === key &&
+                    gas >= lastGasBid) ||
+                    (currentOpportunity.returnPool.toLowerCase() === key &&
+                        gas >= lastGasBid)) {
                     // Rebid if still profitable. Cancel the tx if not
                     logEvent(`COMPETITION ${transaction} Gas Price: ${gas}`);
                     const rev = Number(new bignumber_1.BigNumber(currentOpportunity.stdDiff)) / Math.pow(10, 18);
@@ -75,9 +80,8 @@ function createPGAManager(updateThresholdOnBid, getFirstBidAmount, chain, wallet
             // Check to see if we are profitable after paying for gas
             if (chain.profitable(opportunity, gasPriceBid)) {
                 // Make first bid
-                console.time(`${loggingString} FIRST BID Rev: $${rev} Gas Price: ${gasPriceBid} ${chain.revCoinLookup[opportunity.outerCoin]}-->${chain.revCoinLookup[opportunity.innerCoin]}`);
+                console.log(`${loggingString} FIRST BID Rev: $${rev} Gas Price: ${gasPriceBid} ${chain.revCoinLookup[opportunity.outerCoin]}-->${chain.revCoinLookup[opportunity.innerCoin]}`);
                 bidOnOpportunity(opportunity, gasPriceBid, true);
-                console.timeEnd(`${loggingString} FIRST BID	Rev: $${rev} Gas Price: ${gasPriceBid} ${chain.revCoinLookup[opportunity.outerCoin]}-->${chain.revCoinLookup[opportunity.innerCoin]}`);
             }
         });
     }
@@ -94,7 +98,9 @@ function createPGAManager(updateThresholdOnBid, getFirstBidAmount, chain, wallet
             nonce: nonce,
         })
             .then((receipt) => {
-            receipt.status ? logEvent(`CANCELLED with gas Price of: ${newGasBid}`) : logEvent(`CANCELLED with gas Price of: ${newGasBid} FAILED`);
+            receipt.status
+                ? logEvent(`CANCELLED with gas Price of: ${newGasBid}`)
+                : logEvent(`CANCELLED with gas Price of: ${newGasBid} FAILED`);
             isCancelling = false;
         })
             .catch((err) => {
@@ -108,7 +114,9 @@ function createPGAManager(updateThresholdOnBid, getFirstBidAmount, chain, wallet
     function bidOnOpportunity(opportunity, gasPrice, isFirst) {
         const encodedInput = chain.encodeExecutionInput(opportunity);
         const tx = chain.execArbContract.methods.initiateTrade(encodedInput);
-        const gasAmount = chain.estimate(opportunity.awayExchange, opportunity.returnExchange).toNumber();
+        const gasAmount = chain
+            .estimate(opportunity.awayExchange, opportunity.returnExchange)
+            .toNumber();
         const data = tx.encodeABI();
         if (isFirst) {
             // Update current opportunity and last gas bid
@@ -128,7 +136,9 @@ function createPGAManager(updateThresholdOnBid, getFirstBidAmount, chain, wallet
         chain.web3.eth
             .sendTransaction(txData)
             .then((receipt) => {
-            receipt.status ? logEvent(`SUCCEEDED with revenue: $${new bignumber_1.BigNumber(opportunity.stdDiff).toNumber() / Math.pow(10, 18)} and gas Price of: ${gasPrice} (Get fucked)`) : logEvent(`FAILED with revenue: $${new bignumber_1.BigNumber(opportunity.stdDiff).toNumber() / Math.pow(10, 18)} and gas Price of: ${gasPrice} `);
+            receipt.status
+                ? logEvent(`SUCCEEDED with revenue: $${new bignumber_1.BigNumber(opportunity.stdDiff).toNumber() / Math.pow(10, 18)} and gas Price of: ${gasPrice} (Get fucked)`)
+                : logEvent(`FAILED with revenue: $${new bignumber_1.BigNumber(opportunity.stdDiff).toNumber() / Math.pow(10, 18)} and gas Price of: ${gasPrice} `);
             currentOpportunity = null;
         })
             .catch((err) => {
@@ -177,7 +187,9 @@ function createPGAManager(updateThresholdOnBid, getFirstBidAmount, chain, wallet
         const minutes = date.getMinutes().toString();
         const seconds = date.getSeconds().toString();
         const ms = date.getMilliseconds().toString();
-        return `${(date.getHours() - 5) % 24}:${minutes.length > 1 ? minutes : '0' + minutes}:${seconds.length > 1 ? seconds : '0' + seconds}:${ms.length > 1 ? ms : '0' + ms}`;
+        const _hour = date.getHours();
+        const hour = _hour > 5 ? _hour - 5 : 19 + _hour;
+        return `${hour}:${minutes.length > 1 ? minutes : '0' + minutes}:${seconds.length > 1 ? seconds : '0' + seconds}:${ms.length > 1 ? ms : '0' + ms}`;
     }
     return {
         getCurrentOpportunityPools,
